@@ -42,6 +42,8 @@ function App() {
   
   return (
     <div className="App">
+      {!data ? (
+      <>
       <header className='App-header'>Login user</header>
       <form onSubmit={verifyUser}>
         <input
@@ -49,12 +51,19 @@ function App() {
           onInput={e => setUsername(e.target.value)}
           placeholder='Username'/>
         <input
+          type="password"
           value={password}
           onInput={e => setPassword(e.target.value)}
           placeholder='Password'/>
         <button type="submit">Log in</button>
       </form>
-      {data && <p>{data}</p>}
+      </>
+      ) : (
+      <>
+      <header className='App-header'>User logged in!</header>
+      <p>{data}</p>
+      </>
+      )}
     </div>
   );
 }
