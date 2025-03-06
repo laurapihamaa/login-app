@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
@@ -46,8 +47,50 @@ public class LogInController : Controller
 
         }catch (Exception ex){
 
+            Console.WriteLine(ex.Message);
+
             return BadRequest("Request failed. Please try again.");
 
+        }
+    }
+
+    [HttpPost("register-user")]
+    public async Task<IActionResult> RegisterUser([FromQuery] string username, [FromQuery] string password){
+
+        Regex regex = new Regex(@"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$");
+        Match match = regex.Match(password);
+
+        if(!match.Success){
+            return BadRequest("Invalid password format. Password should include at least one uppercase letter, one lowercase letter, one number"
+                + " and one of special characters (#?!@$%^&*-)");
+        }
+
+        try
+        {
+            bool registerOk = await _loginService.registerUser(username, password);
+
+            if (registerOk){
+                var token = GenerateJwtToken(username);
+
+
+            var cookieOptions = new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = false,
+                    SameSite = SameSiteMode.Lax,
+                    Expires = DateTime.UtcNow.AddHours(1)
+                };
+
+                Response.Cookies.Append("jwt", token, cookieOptions);
+                return Ok();
+            }
+
+            return Unauthorized();
+
+        }
+        catch (Exception)
+        {
+            return BadRequest("Request failed. Please try again.");;
         }
     }
 

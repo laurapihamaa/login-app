@@ -1,14 +1,1 @@
-[
-    {
-        "username": "user1",
-        "password" : "password1"
-    },
-    {
-        "username": "user2",
-        "password" : "password2"
-    },
-    {
-        "username": "user3",
-        "password" : "password3"
-    }
-]
+[{"username":"test2","password":"SY16uq+ekXXpvGsgGXfjV7sRZaih0dIX/5CnDXPyW4GyXkSX19LUzI7omoO42p3W3gX+tba7xUyGlIxN1sKPPA==","salt":"sAB+oZH5ui3V4MdPlzl2OQ=="}]

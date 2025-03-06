@@ -7,6 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers(); 
 builder.Services.AddSingleton<LogInService>();
+builder.Services.AddSingleton<JsonParserService>();
+builder.Services.AddSingleton<PasswordEncryptionService>();
 
 builder.Services.AddCors(options =>
 {
