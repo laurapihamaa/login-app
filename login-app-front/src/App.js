@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Form from './components/Form.js'
 import './App.css';
 
 function App() {
@@ -7,6 +8,8 @@ function App() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [newUsername, setNewUsername] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const [data, setData] = useState("");
 
   const verifyUser = async (e) => {
@@ -21,6 +24,46 @@ function App() {
       fetchData();
     }else{
       alert("Invalid username or password");
+    }
+
+  }
+
+  const registerUser = async (e) => {
+    e.preventDefault();
+
+    const response = await fetch(`${url}/register-user?username=${newUsername}&password=${newPassword}`, {
+      method: 'POST',
+      credentials: 'include'
+    })
+    
+    if(response.ok){
+      setUsername(newUsername);
+      fetchData();
+    }else{
+      const errorMsg = await response.json();
+      alert(errorMsg.message);
+    }
+
+  }
+
+  const logoutUser = async (e) => {
+    e.preventDefault();
+
+    const response = await fetch(`${url}/logout-user?username=${username}`, {
+      method: 'GET',
+      credentials: 'include'
+    })
+    
+    if(response.ok){
+      setUsername("");
+      setNewUsername("");
+      setPassword("");
+      setNewPassword("");
+      setData("");
+      window.location.reload();
+    }else{
+      const errorMsg = await response.json();
+      alert(errorMsg.message);
     }
 
   }
@@ -42,26 +85,28 @@ function App() {
   
   return (
     <div className="App">
+      <header className='App-header'>Log in app</header>
       {!data ? (
       <>
-      <header className='App-header'>Login user</header>
-      <form onSubmit={verifyUser}>
-        <input
-          value={username}
-          onInput={e => setUsername(e.target.value)}
-          placeholder='Username'/>
-        <input
-          type="password"
-          value={password}
-          onInput={e => setPassword(e.target.value)}
-          placeholder='Password'/>
-        <button type="submit">Log in</button>
-      </form>
+      <Form 
+        logUser={registerUser}
+        username={newUsername}
+        addUsername={e => setNewUsername(e.target.value)}
+        password={newPassword}
+        addPassword={e => setNewPassword(e.target.value)}
+        buttonName="Create new user"/>
+      <Form 
+        logUser={verifyUser}
+        username={username}
+        addUsername={e => setUsername(e.target.value)}
+        password={password}
+        addPassword={e => setPassword(e.target.value)}
+        buttonName="Log in"/>
       </>
       ) : (
       <>
-      <header className='App-header'>User logged in!</header>
       <p>{data}</p>
+      <button type="button" onClick={logoutUser}>Log out</button>
       </>
       )}
     </div>

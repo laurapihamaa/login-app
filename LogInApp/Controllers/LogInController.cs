@@ -61,8 +61,8 @@ public class LogInController : Controller
         Match match = regex.Match(password);
 
         if(!match.Success){
-            return BadRequest("Invalid password format. Password should include at least one uppercase letter, one lowercase letter, one number"
-                + " and one of special characters (#?!@$%^&*-)");
+            return BadRequest(new {message = "Invalid password format. Password should include at least one uppercase letter, one lowercase letter, one number"
+                + " and one of special characters (#?!@$%^&*-)"});
         }
 
         try
@@ -90,8 +90,23 @@ public class LogInController : Controller
         }
         catch (Exception)
         {
-            return BadRequest("Request failed. Please try again.");;
+            return BadRequest("Request failed. Please try again.");
         }
+    }
+
+    [HttpGet("logout-user")]
+    public async Task<IActionResult> LogoutUser(){
+        var cookieOptions = new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = false,
+                    SameSite = SameSiteMode.Lax,
+                    Expires = DateTime.UtcNow.AddDays(-1)
+                };
+
+        Response.Cookies.Append("jwt", "", cookieOptions);
+        return Ok();
+
     }
 
     private string GenerateJwtToken(string username){
@@ -115,8 +130,7 @@ public class LogInController : Controller
 
         return new JwtSecurityTokenHandler().WriteToken(token);
 
-        }catch(Exception e){
-            Console.WriteLine(e.Message);
+        }catch(Exception){
             throw new Exception("Jwt token creation failed");
         }
     }
