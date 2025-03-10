@@ -43,7 +43,8 @@ jobs:
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"laurapihamaa_login-app/LogInApp" /o:"laurapihamaa" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          pushd D:\a\login-app\login-app\LogInApp
-          dotnet build
-          popd
+          
+          # Specify project path directly or change directory
+          dotnet build D:\a\login-app\login-app\LogInApp\LogInApp.csproj
+          
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
