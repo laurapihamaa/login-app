@@ -44,11 +44,11 @@ jobs:
           cd LogInApp
           
           # Run SonarQube Scanner for the backend
-          & LogInApp\.sonar\scanner\dotnet-sonarscanner begin /k:"laurapihamaa_login-app" /o:"laurapihamaa" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          .sonar\scanner\dotnet-sonarscanner begin /k:"laurapihamaa_login-app" /o:"laurapihamaa" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           
           # Build the backend project
           dotnet build
           
           # End the analysis
-          & LogInApp\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          .sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
 
