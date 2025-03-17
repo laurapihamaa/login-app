@@ -16,19 +16,13 @@ jobs:
       - run: |
          cd login-app-front
          npm install
-      - run: |
-          dotnet tool install --global dotnet-CycloneDX
       - name: Create SBOM with CycloneDX for frontend
         uses: CycloneDX/gh-node-module-generatebom@v1
         with:
           path: './login-app-front'
           out: './login-app-front-bom.xml'
-      - name: Generate SBOM with CycloneDX for backend
-        run: |
-          # Make sure the .NET tool is available on PATH
-          dotnet tool restore  # Ensure tools are restored, if required.
-          
-          # Run CycloneDX tool to generate SBOM for the backend
-          dotnet-CycloneDX generate --output ./login.app.backend.bom.xml --solution ./backend/LogInApp.sln
-        env:
-          PATH: ${{ runner.tool_cache }}/dotnet/tools:${{ env.PATH }}
+      - name: Generate JSON SBOM
+        uses: CycloneDX/gh-dotnet-generate-sbom@master
+        with:
+         path: ./LogInApp/LogInApp.sln
+         json: true
