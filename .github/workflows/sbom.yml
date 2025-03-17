@@ -26,6 +26,7 @@ jobs:
         with:
          path: ./LogInApp/LogInApp.sln
          json: true
+         out: './login-app-backend-bom.json' 
       - name: Upload SBOM files as artifacts
         uses: actions/upload-artifact@v3
         with:
