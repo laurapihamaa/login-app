@@ -50,7 +50,9 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
+          LogInApp\.sonar\scanner\dotnet-sonarscanner begin /k:"laurapihamaa_login-app\LogInApp" /o:"laurapihamaa" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           cd LogInApp
-          .sonar\scanner\dotnet-sonarscanner begin /k:"laurapihamaa_login-app\LogInApp" /o:"laurapihamaa" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          dir
+          ls .sonar
           dotnet build
-          .sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          LogInApp\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
