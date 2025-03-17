@@ -17,9 +17,9 @@ jobs:
         uses: CycloneDX/gh-node-module-generatebom@v1
         with:
           path: './login-app-front'
-          out: './login-app-front/login.app.front.bom.xml'
+          out: './login-app-front-bom.xml'
       - name: Generate SBOM with CycloneDX for backend
         uses: CycloneDX/gh-dotnet-generate-sbom@v1
         with:
           path: './LogInApp/LogInApp.sln'
-          out: './LogInApp/login.app.backend.bom.xml'
+          out: './login-app-backend-bom.xml'
