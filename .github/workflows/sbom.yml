@@ -20,13 +20,13 @@ jobs:
         uses: CycloneDX/gh-node-module-generatebom@v1
         with:
           path: './login-app-front'
-          out: './login-app-front-bom.xml'
+          output: './login-app-front-bom.xml'
       - name: Generate JSON SBOM
         uses: CycloneDX/gh-dotnet-generate-sbom@master
         with:
          path: ./LogInApp/LogInApp.sln
          json: true
-         out: './login-app-backend-bom.json' 
+         output: './login-app-backend-bom.json' 
       - name: Upload SBOM files as artifacts
         uses: actions/upload-artifact@v3
         with:
