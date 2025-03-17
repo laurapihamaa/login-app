@@ -32,7 +32,9 @@ jobs:
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         shell: powershell
         run: |
-          New-Item -Path LogInApp\.sonar\scanner -ItemType Directory
+          if (-Not (Test-Path -Path "LogInApp\.sonar\scanner")) {
+            New-Item -Path "LogInApp\.sonar\scanner" -ItemType Directory
+          }
           dotnet tool update dotnet-sonarscanner --tool-path LogInApp\.sonar\scanner
 
       - name: Run SonarQube Scanner for Backend
