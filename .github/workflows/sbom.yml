@@ -20,5 +20,5 @@ jobs:
       - name: Generate SBOM with CycloneDX for backend
         uses: CycloneDX/gh-dotnet-generate-sbom@v1
         with:
-          path: ./LogInApp.sln
+          path: ./LogInApp/LogInApp.sln
           out: './login.app.backend.bom.xml'
