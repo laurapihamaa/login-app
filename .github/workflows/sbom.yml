@@ -4,16 +4,15 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Install and build javascript
+    name: Create SBOM files
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
         with:
           node-version: '16'
       - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.0'
-      - uses: actions/upload-artifact@v3
       - run: |
          cd login-app-front
          npm install
@@ -29,7 +28,7 @@ jobs:
          json: true
          output: './login-app-backend-bom.json' 
       - name: Upload SBOM files as artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: sbom-files
           path: |
