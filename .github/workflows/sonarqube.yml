@@ -90,6 +90,6 @@ jobs:
           cd login-app-front
           
           # Run SonarQube Scanner for the frontend
-          sonar-scanner -Dsonar.projectKey="laurapihamaa_login-app-front" -Dsonar.organization="laurapihamaa" -Dsonar.host.url="https://sonarcloud.io" -Dsonar.login="${{ secrets.SONAR_TOKEN }}"
+          sonar-scanner -Dsonar.projectKey="laurapihamaa_login-app" -Dsonar.organization="laurapihamaa" -Dsonar.host.url="https://sonarcloud.io" -Dsonar.login="${{ secrets.SONAR_TOKEN }}"
           
 
