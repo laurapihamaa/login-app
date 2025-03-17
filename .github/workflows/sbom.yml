@@ -12,7 +12,8 @@ jobs:
           node-version: '16'
       - uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.0' 
+          dotnet-version: '8.0'
+      - uses: actions/upload-artifact@v3
       - run: |
          cd login-app-front
          npm install
