@@ -8,9 +8,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
-      - uses: CycloneDX/gh-dotnet-generate-sbom@v1
         with:
           node-version: '16'
+      - uses: CycloneDX/gh-dotnet-generate-sbom@v1
+        with:
+         path: ./CycloneDX.sln
       - run: npm install
       - name: Create SBOM with CycloneDX for frontend
         uses: CycloneDX/gh-node-module-generatebom@v1
