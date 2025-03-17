@@ -1,58 +1,54 @@
 name: SonarQube
+
 on:
   push:
     branches:
       - main
   pull_request:
     types: [opened, synchronize, reopened]
+
 jobs:
-  build:
-    name: Build and analyze
+  analyze-backend:
+    name: Backend - Analyze with SonarQube
     runs-on: windows-latest
     steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4
+
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: 17
-          distribution: 'zulu' # Alternative distribution options are available.
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: Change directory and list files
-        run: |
-          cd LogInApp
-          # List files to verify we are in the correct directory
-          dir
-      - name: Cache SonarQube Cloud packages
-        uses: actions/cache@v4
-        with:
-          path: ~\sonar\cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-      - name: Cache SonarQube Cloud scanner
-        id: cache-sonar-scanner
+          distribution: 'zulu'
+
+      - name: Cache SonarQube scanner
         uses: actions/cache@v4
         with:
           path: LogInApp\.sonar\scanner
-          key: ${{ runner.os }}-sonar-scanner
-          restore-keys: ${{ runner.os }}-sonar-scanner
+          key: ${{ runner.os }}-sonar-scanner-backend
+          restore-keys: ${{ runner.os }}-sonar-scanner-backend
+
       - name: Install SonarQube Cloud scanner
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         shell: powershell
         run: |
           New-Item -Path LogInApp\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path LogInApp\.sonar\scanner
-      - name: List files
-        run: |
-          dir
-      - name: Build and analyze
+
+      - name: Run SonarQube Scanner for Backend
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          & LogInApp\.sonar\scanner\dotnet-sonarscanner begin /k:"laurapihamaa_login-app\LogInApp" /o:"laurapihamaa" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          # Change to the backend directory
           cd LogInApp
-          dir
-          ls .sonar
+          
+          # Run SonarQube Scanner for the backend
+          & LogInApp\.sonar\scanner\dotnet-sonarscanner begin /k:"laurapihamaa_login-app" /o:"laurapihamaa" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          
+          # Build the backend project
           dotnet build
+          
+          # End the analysis
           & LogInApp\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+
