@@ -28,7 +28,7 @@ jobs:
       - name: Start OWASP ZAP scan
         run: | 
           chmod -R u+rw ${PWD}
-          docker run --rm -v ${PWD}:/zap/wrk:rw --network="host" zaproxy/zap-stable zap-baseline.py -t http://localhost:3000 -r /zap/wrk/scan-report.html
+          docker run --rm -v ${PWD}:/zap/wrk:rw --user root --network="host" zaproxy/zap-stable zap-baseline.py -t http://localhost:3000 -r /zap/wrk/scan-report.html
       - name: Upload ZAP report as artifact
         uses: actions/upload-artifact@v4
         with:
