@@ -29,6 +29,8 @@ jobs:
         run: | 
           chmod -R u+rw ${PWD}
           docker run -v ${PWD}:/zap/wrk:rw --user root --network="host" zaproxy/zap-stable zap-baseline.py -t http://localhost:3000 -r scan-report.html
+          ls -l /zap/wrk/scan-report.html   # Check the permissions and file existence
+          cat /zap/wrk/scan-report.html 
       - name: Upload ZAP report as artifact
         uses: actions/upload-artifact@v4
         with:
