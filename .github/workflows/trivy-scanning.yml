@@ -37,7 +37,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: ./LogInApp
-          file: Dockerfile
+          file: ./LogInApp/Dockerfile
           push: true
           tags: llaurapihamaa/loginapp-backend:latest
 
