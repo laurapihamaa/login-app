@@ -33,4 +33,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: zap-report
-          path: DAST_Report.html
+          path: scan-report.html
