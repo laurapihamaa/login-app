@@ -6,25 +6,34 @@ jobs:
     runs-on: ubuntu-latest
     name: Create SBOM files
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v3
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Setup node node
+        uses: actions/setup-node@v3
         with:
           node-version: '16'
-      - uses: actions/setup-dotnet@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.0'
-      - run: |
+          
+      - name: Install node
+        run: |
          cd login-app-front
          npm install
+         
       - name: Create SBOM with CycloneDX for frontend
         uses: CycloneDX/gh-node-module-generatebom@v1
         with:
           path: ./login-app-front
-      - name: Generate JSON SBOM
+          
+      - name: Create SBOM with CycloneDX for backend
         uses: CycloneDX/gh-dotnet-generate-sbom@master
         with:
          path: ./LogInApp/LogInApp.sln
          json: true
+         
       - name: Upload SBOM files as artifacts
         uses: actions/upload-artifact@v4
         with:
