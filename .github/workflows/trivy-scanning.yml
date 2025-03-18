@@ -33,11 +33,14 @@ jobs:
       - name: Scan file system
         run: trivy fs . > trivyfs.txt
 
-      - name: Build Docker Compose
-        run: |
-          docker-compose up -d
+      - name: build and push backend image
+        uses: docker/build-push-action@v3
+        with:
+          context: ./LogInApp
+          file: Dockerfile
+          push: true
+          tags: llaurapihamaa/loginapp-backend:latest
 
       - name: Scan containers with trivy
         run: |
-          trivy image sec_project-backend:latest > trivybackendimage.txt
-          trivy image sec_project-frontend:latest > trivybackendimage.txt
+          trivy image loginapp-backend:latest > trivybackendimage.txt
