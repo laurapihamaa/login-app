@@ -5,7 +5,7 @@ on:
 
 jobs:
 
-  build:
+  trivy-scan:
 
     runs-on: ubuntu-latest
 
@@ -41,6 +41,22 @@ jobs:
           push: true
           tags: llaurapihamaa/loginapp-backend:latest
 
+      - name: build and push frontend image
+        uses: docker/build-push-action@v3
+        with:
+          context: ./login-app-front
+          file: ./login-app-front/Dockerfile
+          push: true
+          tags: llaurapihamaa/loginapp-frontend:latest
+
       - name: Scan containers with trivy
         run: |
           trivy image llaurapihamaa/loginapp-backend:latest > trivybackendimage.txt
+          trivy image llaurapihamaa/loginapp-frontend:latest > trivyfrontendimage.txt
+          
+      - name: Upload trivy files as artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-files
+          path: |
+            ./*.txt
