@@ -43,4 +43,4 @@ jobs:
 
       - name: Scan containers with trivy
         run: |
-          trivy image loginapp-backend:latest > trivybackendimage.txt
+          trivy image llaurapihamaa/loginapp-backend:latest > trivybackendimage.txt
