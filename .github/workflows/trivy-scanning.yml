@@ -35,11 +35,7 @@ jobs:
 
       - name: Build Docker Compose
         run: |
-          docker-compose build --no-cache
-
-      - name: Push Docker Image
-        run: |
-          docker-compose push
+          docker-compose up -d
 
       - name: Scan containers with trivy
         run: |
