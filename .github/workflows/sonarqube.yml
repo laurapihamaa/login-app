@@ -33,59 +33,59 @@ jobs:
           }
           dotnet tool update dotnet-sonarscanner --tool-path LogInApp\.sonar\scanner
 
-      - name: Run SonarQube Scanner for Backend
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        shell: powershell
-        run: |
+      #- name: Run SonarQube Scanner for Backend
+      #  env:
+      #    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #  shell: powershell
+      #  run: |
           # Change to the backend directory
-          cd LogInApp
+       #   cd LogInApp
           
           # Run SonarQube Scanner for the backend
-          .sonar\scanner\dotnet-sonarscanner begin /k:"laurapihamaa_login-app" /o:"laurapihamaa" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+       #   .sonar\scanner\dotnet-sonarscanner begin /k:"laurapihamaa_login-app" /o:"laurapihamaa" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           
           # Build the backend project
-          dotnet build
+      #    dotnet build
 
           # End the analysis
-          .sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
-  #analyze-frontend:
-  #  name: Frontend - Analyze with SonarQube
-  #  runs-on: ubuntu-latest
-  #  steps:
-  #    - name: Checkout the repository
-   #     uses: actions/checkout@v4
+     #     .sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+  analyze-frontend:
+    name: Frontend - Analyze with SonarQube
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4
 
-#      - name: Install Node.js
- #       uses: actions/setup-node@v3
-  #      with:
-  #        node-version: '16'
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
 
-  #    - name: Cache npm dependencies
-  #      uses: actions/cache@v4
-  #      with:
-  #        path: ~/.npm
-  #        key: ${{ runner.os }}-frontend-npm-${{ hashFiles('**/package-lock.json') }}
-  #        restore-keys: ${{ runner.os }}-frontend-npm-
+      - name: Cache npm dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-frontend-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-frontend-npm-
 
- #     - name: Install dependencies
- #       run: |
-#          cd login-app-front
- #         npm install
+      - name: Install dependencies
+        run: |
+          cd login-app-front
+          npm install
 
- #     - name: Install SonarQube Scanner for Frontend
- #       run: |
- #         cd login-app-front
-#          npm install -g sonarqube-scanner
+      - name: Install SonarQube Scanner for Frontend
+        run: |
+          cd login-app-front
+          npm install -g sonarqube-scanner
 
-#      - name: Run SonarQube Scanner for Frontend
-#        env:
-#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-#        run: |
+      - name: Run SonarQube Scanner for Frontend
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
           # Change to the frontend directory
-#          cd login-app-front
+          cd login-app-front
           
           # Run SonarQube Scanner for the frontend
- #         sonar-scanner -Dsonar.projectKey="laurapihamaa_login-app" -Dsonar.organization="laurapihamaa" -Dsonar.host.url="https://sonarcloud.io" -Dsonar.login="${{ secrets.SONAR_TOKEN }}"
+          sonar-scanner -Dsonar.projectKey="laurapihamaa_login-app" -Dsonar.organization="laurapihamaa" -Dsonar.host.url="https://sonarcloud.io" -Dsonar.login="${{ secrets.SONAR_TOKEN }}"
           
 
