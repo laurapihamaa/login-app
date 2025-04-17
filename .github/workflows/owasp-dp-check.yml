@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
 defaults:
  run:
-  working-directory: ./login-app/LogInApp
+  working-directory: ./LogInApp
 jobs:
   depchecktest:
     runs-on: ubuntu-latest
