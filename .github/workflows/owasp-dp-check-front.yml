@@ -16,7 +16,9 @@ jobs:
         with:
           node-version: '16'
       - name: Build project with npm
-        run: npm run build        
+        run: |
+          npm install
+          npm run build        
       - name: Depcheck
         uses: dependency-check/Dependency-Check_Action@main
         id: Depcheck
