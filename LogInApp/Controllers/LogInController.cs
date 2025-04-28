@@ -57,9 +57,9 @@ public class LogInController : Controller
     [HttpPost("register-user")]
     public async Task<IActionResult> RegisterUser([FromQuery] string username, [FromQuery] string password){
 
-        Regex regex = new Regex(@"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$");
+        Regex regex = new Regex(@"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", RegexOptions.None, TimeSpan.FromMilliseconds(100));
         Match match = regex.Match(password);
-        AppDomain.CurrentDomain.SetData("REGEX_DEFAULT_MATCH_TIMEOUT", TimeSpan.FromMilliseconds(100));
+        
 
 
         if(!match.Success){
