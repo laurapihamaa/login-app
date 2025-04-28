@@ -17,7 +17,10 @@ function App() {
 
     const response = await fetch(`${url}/login-user?username=${username}&password=${password}`, {
       method: 'POST',
-      credentials: 'include'
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     })
     
     if(response.ok){
@@ -33,7 +36,10 @@ function App() {
 
     const response = await fetch(`${url}/register-user?username=${newUsername}&password=${newPassword}`, {
       method: 'POST',
-      credentials: 'include'
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     })
     
     if(response.ok){
@@ -51,7 +57,10 @@ function App() {
 
     const response = await fetch(`${url}/logout-user?username=${username}`, {
       method: 'GET',
-      credentials: 'include'
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     })
     
     if(response.ok){
@@ -71,7 +80,10 @@ function App() {
   const fetchData = async()=>{
     const response = await fetch(`${url}/data`, {
       method: 'GET',
-      credentials: 'include'
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     })
 
     if(response.ok){

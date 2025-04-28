@@ -59,6 +59,8 @@ public class LogInController : Controller
 
         Regex regex = new Regex(@"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$");
         Match match = regex.Match(password);
+        AppDomain.CurrentDomain.SetData("REGEX_DEFAULT_MATCH_TIMEOUT", TimeSpan.FromMilliseconds(100));
+
 
         if(!match.Success){
             return BadRequest(new {message = "Invalid password format. Password should include at least one uppercase letter, one lowercase letter, one number"
