@@ -8,6 +8,7 @@ public class PasswordEncryptionService{
     var iterations = 1000;
     var desiredKeyLength = 16; 
     var hashMethod = HashAlgorithmName.SHA384;
+    //the key uses a PBKDF2-library for hashing
     return Rfc2898DeriveBytes.Pbkdf2(Encoding.Unicode.GetBytes(password),
                                      salt,
                                      iterations,
@@ -16,6 +17,7 @@ public class PasswordEncryptionService{
     }
 
     public byte[] CreateSalt (int length){
+        //salt is generated using random bytes
         using var rng = new RNGCryptoServiceProvider();
         byte [] randomBytes = new byte[length];
 
@@ -23,6 +25,9 @@ public class PasswordEncryptionService{
         return randomBytes;
     }
 
+    /*
+    Password are encrypted before storing
+    */
     public async Task<byte[]> EncryptPassword (string password, byte[] salt){
         using Aes aes = Aes.Create();
 

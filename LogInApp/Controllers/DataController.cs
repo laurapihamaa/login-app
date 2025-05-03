@@ -4,6 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 [ApiController]
 public class DataController : Controller {
 
+    /**
+        The data controller uses the Authorize-annotation which prevents access from unauthorized users
+    **/
+
     [HttpGet("data")]
     [Authorize]
     public IActionResult GetData (){

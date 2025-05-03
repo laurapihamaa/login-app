@@ -30,7 +30,7 @@ public class LogInController : Controller
             if (loginOk){
                 var token = GenerateJwtToken(username);
 
-
+            //cookie is set to http-only so that is can not be tampered by the user
             var cookieOptions = new CookieOptions
                 {
                     HttpOnly = true,
@@ -57,11 +57,11 @@ public class LogInController : Controller
     [HttpPost("register-user")]
     public async Task<IActionResult> RegisterUser([FromQuery] string username, [FromQuery] string password){
 
+        //Password check to make sure that tha user has a strong password in use
+        
         Regex regex = new Regex(@"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", RegexOptions.None, TimeSpan.FromMilliseconds(100));
         Match match = regex.Match(password);
         
-
-
         if(!match.Success){
             return BadRequest(new {message = "Invalid password format. Password should include at least one uppercase letter, one lowercase letter, one number"
                 + " and one of special characters (#?!@$%^&*-)"});
